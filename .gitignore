@@ -1,0 +1,6 @@
+bin/
+node_modules/
+*.exe
+*.pdb
+*.vsix
+editors/vscode/server/

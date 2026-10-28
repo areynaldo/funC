@@ -1,0 +1,7 @@
+(file "main"
+    (import "core:fmt")
+
+    (proc "main"
+        (block
+            (unparsed "fmt.println(\"Hellope!\"")
+            (expr (call (select (id "fmt") "println") (str "still parsed"))))))

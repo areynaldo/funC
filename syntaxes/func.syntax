@@ -1,0 +1,43 @@
+# The canonical on-disk form of a funC program: one s-expression per node.
+# Names are always quoted, so no word is reserved, and the layout is free,
+# so a .func file can be formatted by hand however you like.
+# Every kind is spelled here; other syntaxes fall back to these rules for kinds they leave out.
+name      = func
+title     = funC tree
+extension = .func
+comment   = ;
+layout    = free
+
+unparsed = '(unparsed ' text:escaped ')'
+file     = '(file ' package:string indent declarations*line dedent ')'
+import   = '(import ' path:string ')'
+var      = '(var ' name:string ' ' value ')'
+proc     = '(proc ' name:string [' (params' parameters+' ' ')'] [' ' result] indent newline body dedent ')'
+param    = '(param ' name:string ' ' type ')'
+type     = '(type ' name:string ')'
+block    = '(block' indent statements*line dedent ')'
+assign   = '(assign ' target ' ' value ')'
+if       = '(if ' condition indent newline then [newline otherwise] dedent ')'
+while    = '(while ' condition indent newline body dedent ')'
+return   = '(return' [' ' value] ')'
+expr     = '(expr ' expression ')'
+call     = '(call ' function arguments+' ' ')'
+select   = '(select ' base ' ' name:string ')'
+or       = '(or ' left ' ' right ')'
+and      = '(and ' left ' ' right ')'
+eq       = '(eq ' left ' ' right ')'
+ne       = '(ne ' left ' ' right ')'
+lt       = '(lt ' left ' ' right ')'
+le       = '(le ' left ' ' right ')'
+gt       = '(gt ' left ' ' right ')'
+ge       = '(ge ' left ' ' right ')'
+add      = '(add ' left ' ' right ')'
+sub      = '(sub ' left ' ' right ')'
+mul      = '(mul ' left ' ' right ')'
+div      = '(div ' left ' ' right ')'
+mod      = '(mod ' left ' ' right ')'
+neg      = '(neg ' operand ')'
+not      = '(not ' operand ')'
+id       = '(id ' name:string ')'
+str      = '(str ' value:string ')'
+int      = '(int ' value:number ')'

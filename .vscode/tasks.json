@@ -1,0 +1,11 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build funC-lsp",
+      "type": "shell",
+      "command": "New-Item -ItemType Directory -Force editors/vscode/server | Out-Null; odin build lsp -out:editors/vscode/server/funC-lsp.exe -debug",
+      "problemMatcher": []
+    }
+  ]
+}

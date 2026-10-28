@@ -1,0 +1,39 @@
+(file "main"
+    (import "core:fmt")
+
+    (var "limit" (int 32))
+
+    (proc "fib" (params (param "n" (type "int"))) (type "int")
+        (block
+            (if (lt (id "n") (int 2))
+                (block
+                    (return (id "n"))))
+            (return (add (call (id "fib") (sub (id "n") (int 1))) (call (id "fib") (sub (id "n") (int 2)))))))
+
+    (proc "fizzbuzz" (params (param "i" (type "int"))) (type "string")
+        (block
+            (if (eq (mod (id "i") (int 15)) (int 0))
+                (block
+                    (return (str "FizzBuzz")))
+                (block
+                    (if (eq (mod (id "i") (int 3)) (int 0))
+                        (block
+                            (return (str "Fizz"))))
+                    (if (eq (mod (id "i") (int 5)) (int 0))
+                        (block
+                            (return (str "Buzz"))))
+                    (return (str ""))))))
+
+    (proc "main"
+        (block
+            (var "i" (int 1))
+            (while (le (id "i") (id "limit"))
+                (block
+                    (var "word" (call (id "fizzbuzz") (id "i")))
+                    (if (eq (id "word") (str ""))
+                        (block
+                            (expr (call (select (id "fmt") "println") (id "i"))))
+                        (block
+                            (expr (call (select (id "fmt") "println") (id "word")))))
+                    (assign (id "i") (add (id "i") (int 1)))))
+            (expr (call (select (id "fmt") "println") (str "fib(20) =") (call (id "fib") (int 20)) (sub (mul (add (int 2) (int 3)) (int 4)) (neg (int 1))) (or (not (gt (id "i") (int 3))) (id "true")))))))

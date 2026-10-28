@@ -1,0 +1,13 @@
+(file "main"
+    (import "core:fmt")
+
+    (proc "fib" (params (param "n" (type "int"))) (type "int")
+        (block
+            (if (lt (id "n") (int 2))
+                (block
+                    (return (id "n"))))
+            (return (add (call (id "fib") (sub (id "n") (int 1))) (call (id "fib") (sub (id "n") (int 2)))))))
+
+    (proc "main"
+        (block
+            (expr (call (select (id "fmt") "println") (str "fib(20) =") (call (id "fib") (int 20)))))))

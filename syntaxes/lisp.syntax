@@ -1,0 +1,39 @@
+# A Lisp-like view: every call and operator is a list, `(f x y)`, `(+ a b)`.
+name      = lisp
+title     = Lisp
+extension = .flisp
+comment   = ;
+layout    = free
+
+file   = '(package ' package ')' declarations*line
+import = '(import ' path:string ')'
+var    = '(def ' name ' ' value ')'
+assign = '(set! ' target ' ' value ')'
+proc   = '(defn ' name ' [' parameters*' ' ']' [' -> ' result] indent newline body dedent ')'
+param  = name ':' type
+type   = name
+block  = '(do' indent statements*line dedent ')'
+expr   = expression
+if     = '(if ' condition indent newline then [newline otherwise] dedent ')'
+while  = '(while ' condition indent newline body dedent ')'
+return = '(return' [' ' value] ')'
+call   = '(' function arguments+' ' ')'
+select = base '.' name
+or     = '(or ' left ' ' right ')'
+and    = '(and ' left ' ' right ')'
+eq     = '(= ' left ' ' right ')'
+ne     = '(not= ' left ' ' right ')'
+lt     = '(< ' left ' ' right ')'
+le     = '(<= ' left ' ' right ')'
+gt     = '(> ' left ' ' right ')'
+ge     = '(>= ' left ' ' right ')'
+add    = '(+ ' left ' ' right ')'
+sub    = '(- ' left ' ' right ')'
+mul    = '(* ' left ' ' right ')'
+div    = '(/ ' left ' ' right ')'
+mod    = '(mod ' left ' ' right ')'
+neg    = '(- ' operand ')'
+not    = '(not ' operand ')'
+id     = name
+str    = value:string
+int    = value:number

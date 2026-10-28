@@ -1,0 +1,43 @@
+# A Haskell-like view: calls are juxtaposition, `f x y`.
+# A call used as a callee or an argument needs parentheses, `f (g x)`, and so do negative
+# and `not` arguments, `f (-1)`. A call with no arguments is written `f ()`.
+# Reassigning a variable is `x <- 2`.
+name      = haskell
+title     = Haskell
+extension = .fhs
+comment   = --
+layout    = indent
+group     = '(' ')'
+
+file   = 'module ' package ' where' declarations*line
+import = 'import ' path:string
+var    = name ' = ' value
+assign = target ' <- ' value
+proc   = name parameters+' ' [' -> ' result] ' = do' body
+param  = '(' name ' :: ' type ')'
+type   = name
+block  = indent statements*line dedent
+expr   = expression
+if     = 'if ' condition ' then' then [newline 'else' otherwise]
+while  = 'while ' condition ' do' body
+return = 'return' [' ' value]
+call   = function!call ' ' arguments*' '!neg!not|'()'
+select = base '.' name
+or     = left ' || ' right
+and    = left ' && ' right
+eq     = left ' == ' right
+ne     = left ' /= ' right
+lt     = left ' < ' right
+le     = left ' <= ' right
+gt     = left ' > ' right
+ge     = left ' >= ' right
+add    = left ' + ' right
+sub    = left ' - ' right
+mul    = left ' * ' right
+div    = left ' `div` ' right
+mod    = left ' `mod` ' right
+neg    = '-' operand
+not    = 'not ' operand
+id     = name
+str    = value:string
+int    = value:number

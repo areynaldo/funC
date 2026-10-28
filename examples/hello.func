@@ -1,0 +1,12 @@
+(file "main"
+    (import "core:fmt")
+
+    (proc "main"
+        (block
+            (expr (call (select (id "fmt") "println") (str "Hellope!")))
+            (expr (call (select (id "fmt") "println") (str "Hellope!")))
+            (expr (call (select (id "fmt") "println") (str "Hellope!")))
+            (expr (call (select (id "fmt") "println") (str "Hellope!")))
+            (expr (call (select (id "fmt") "println") (str "Hellope!")))
+            (expr (call (select (id "fmt") "println") (str "Hellope!")))
+            (expr (call (select (id "fmt") "println") (str "Hellope!"))))))

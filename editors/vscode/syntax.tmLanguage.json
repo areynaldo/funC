@@ -1,0 +1,26 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "funC syntax definition",
+  "scopeName": "source.funC-syntax",
+  "patterns": [
+    { "name": "comment.line.number-sign.funC-syntax", "match": "^\\s*#.*$" },
+    {
+      "match": "^\\s*(name|title|extension|comment|layout|spacing|group)\\s*(=)",
+      "captures": { "1": { "name": "keyword.other.setting.funC-syntax" }, "2": { "name": "keyword.operator.funC-syntax" } }
+    },
+    {
+      "match": "^\\s*([a-z]+)\\s*(=)",
+      "captures": { "1": { "name": "entity.name.function.rule.funC-syntax" }, "2": { "name": "keyword.operator.funC-syntax" } }
+    },
+    {
+      "name": "string.quoted.single.funC-syntax",
+      "begin": "'",
+      "end": "'",
+      "patterns": [{ "name": "constant.character.escape.funC-syntax", "match": "\\\\['\\\\]" }]
+    },
+    { "name": "keyword.control.funC-syntax", "match": "\\b(indent|dedent|newline|else|line)\\b" },
+    { "name": "storage.modifier.funC-syntax", "match": "(?<=:)(word|string|escaped|number)\\b" },
+    { "name": "keyword.operator.funC-syntax", "match": "[:*+!|\\[\\]]" },
+    { "name": "variable.parameter.field.funC-syntax", "match": "\\b[a-z]+\\b" }
+  ]
+}

@@ -1,0 +1,84 @@
+# A C-like view.
+#
+# How a syntax file works
+# -----------------------
+# Settings:
+#   name       what views and the CLI call this syntax
+#   title      shown in the editor (defaults to the name)
+#   extension  file extension of a view, e.g. hello.func.fc
+#   comment    line comment marker
+#   layout     lines  - one statement per line (default)
+#              indent - like lines, and a block ends where the indentation does
+#              free   - newlines are plain spaces
+#   spacing    blank lines around each procedure at file level (default 1). Blank lines you
+#              type elsewhere are kept too, one at most
+#   group      parentheses for this syntax, written where precedence needs them, like (a + b) * c
+#              (default '(' ')')
+#
+# Rules: one per node kind, `kind = parts...`. Parts are:
+#   'text'          literal text ('it\'s' and '\\' escape)
+#   field           a field of the node, see the list below
+#   field:string    a name or text field written in double quotes (also :escaped, :number)
+#   list*', '       a list field and the separator between items; list*line puts one item per line
+#   list+' '        ...with the separator before every item instead
+#   list*' '|'()'   ...and the text that stands for an empty list
+#   [parts]         parts written only when the fields inside are there, like [' else ' otherwise]
+#   [parts else 'text']   ...and the text written when they're not
+#   field!call      a call here must be wrapped in the group, beyond what precedence decides
+#   indent dedent newline   layout when printing
+#
+# Node kinds and their fields. Each field is used exactly once; the ones marked ? can be
+# absent and go inside [ ]. A kind with no rule is written in its .func tree form.
+#   file     package declarations        import  path
+#   var      name value                  assign  target value
+#   proc     name parameters result? body
+#   param    name type                   type    name
+#   block    statements                  expr    expression
+#   if       condition then otherwise?   while   condition body
+#   return   value?
+#   call     function arguments          select  base name
+#   or and eq ne lt le gt ge add sub mul div mod    left right
+#   neg not  operand
+#   id       name     str  value     int  value
+#   unparsed text   (how a line that didn't parse is stored; without a rule it's written as typed)
+#
+# Operators bind the same in every syntax, tightest first: select, call, neg not,
+# mul div mod, add sub, lt le gt ge, eq ne, and, or.
+name      = c
+title     = C
+extension = .fc
+comment   = //
+group     = '(' ')'
+
+file   = 'package ' package ';' declarations*line
+import = '#include ' path:string
+var    = 'auto ' name ' = ' value ';'
+assign = target ' = ' value ';'
+proc   = [result ' ' else 'void '] name '(' parameters*', '|'void' ') ' body
+param  = type ' ' name
+type   = name
+block  = '{' indent statements*line dedent newline '}'
+expr   = expression ';'
+if     = 'if (' condition ') ' then [' else ' otherwise]
+while  = 'while (' condition ') ' body
+return = 'return' [' ' value] ';'
+call   = function '(' arguments*', ' ')'
+select = base '.' name
+or     = left ' || ' right
+and    = left ' && ' right
+eq     = left ' == ' right
+ne     = left ' != ' right
+lt     = left ' < ' right
+le     = left ' <= ' right
+gt     = left ' > ' right
+ge     = left ' >= ' right
+add    = left ' + ' right
+sub    = left ' - ' right
+mul    = left ' * ' right
+div    = left ' / ' right
+mod    = left ' % ' right
+neg    = '-' operand
+not    = '!' operand
+id     = name
+str    = value:string
+int    = value:number

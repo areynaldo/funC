@@ -1,0 +1,169 @@
+{
+  "name": "func",
+  "displayName": "funC",
+  "description": "funC: programs stored as .func trees, edited through virtual views in the syntax you choose",
+  "version": "0.3.0",
+  "publisher": "areynaldo",
+  "private": true,
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "main": "./extension.js",
+  "activationEvents": [
+    "onFileSystem:funcview"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "funC",
+        "aliases": [
+          "funC tree"
+        ],
+        "extensions": [
+          ".func"
+        ],
+        "configuration": "./language-configuration.json"
+      },
+      {
+        "id": "funC-syntax",
+        "aliases": [
+          "funC syntax definition"
+        ],
+        "extensions": [
+          ".syntax"
+        ],
+        "configuration": "./syntax-language-configuration.json"
+      },
+      {
+        "id": "funC-view",
+        "aliases": [
+          "funC view"
+        ]
+      }
+    ],
+    "commands": [
+      {
+        "command": "funC.openView",
+        "title": "funC: Switch View Syntax…",
+        "icon": "$(preview)"
+      },
+      {
+        "command": "funC.compileC89",
+        "title": "funC: Compile to C89"
+      },
+      {
+        "command": "funC.viewAs.odin",
+        "title": "funC: View as Odin"
+      },
+      {
+        "command": "funC.viewAs.lua",
+        "title": "funC: View as Lua"
+      },
+      {
+        "command": "funC.viewAs.python",
+        "title": "funC: View as Python"
+      },
+      {
+        "command": "funC.viewAs.c",
+        "title": "funC: View as C"
+      },
+      {
+        "command": "funC.viewAs.haskell",
+        "title": "funC: View as Haskell"
+      },
+      {
+        "command": "funC.viewAs.lisp",
+        "title": "funC: View as Lisp"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "funC.openView",
+          "when": "resourceExtname == .func || resourceScheme == funcview",
+          "group": "navigation"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "funC.openView",
+          "when": "resourceExtname == .func || resourceScheme == funcview"
+        },
+        {
+          "command": "funC.compileC89",
+          "when": "resourceExtname == .func || resourceScheme == funcview"
+        },
+        {
+          "command": "funC.viewAs.odin",
+          "when": "resourceExtname == .func || resourceScheme == funcview"
+        },
+        {
+          "command": "funC.viewAs.lua",
+          "when": "resourceExtname == .func || resourceScheme == funcview"
+        },
+        {
+          "command": "funC.viewAs.python",
+          "when": "resourceExtname == .func || resourceScheme == funcview"
+        },
+        {
+          "command": "funC.viewAs.c",
+          "when": "resourceExtname == .func || resourceScheme == funcview"
+        },
+        {
+          "command": "funC.viewAs.haskell",
+          "when": "resourceExtname == .func || resourceScheme == funcview"
+        },
+        {
+          "command": "funC.viewAs.lisp",
+          "when": "resourceExtname == .func || resourceScheme == funcview"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "funC",
+      "properties": {
+        "funC.defaultView": {
+          "type": "string",
+          "default": "python",
+          "description": "Syntax used when a view opens automatically: odin, lua, python, c, haskell, lisp, or the name of one of your own syntaxes."
+        },
+        "funC.autoOpenView": {
+          "type": "boolean",
+          "default": true,
+          "description": "Open the default view beside a .func file when it becomes the active editor."
+        },
+        "funC.syntaxDirectories": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "description": "Extra folders of .syntax files to load at startup. A `syntaxes` folder in each workspace folder is always loaded."
+        },
+        "funC.serverPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to funC-lsp.exe. Empty uses the server bundled with the extension."
+        }
+      }
+    },
+    "grammars": [
+      {
+        "language": "funC-syntax",
+        "scopeName": "source.funC-syntax",
+        "path": "./syntax.tmLanguage.json"
+      }
+    ],
+    "configurationDefaults": {
+      "[funC]": {
+        "editor.semanticHighlighting.enabled": true
+      },
+      "[funC-view]": {
+        "editor.semanticHighlighting.enabled": true
+      }
+    }
+  },
+  "dependencies": {
+    "vscode-languageclient": "9.0.1"
+  }
+}
