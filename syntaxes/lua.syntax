@@ -1,0 +1,39 @@
+# A Lua-like view, with type annotations like Luau's.
+name      = lua
+title     = Lua
+extension = .flua
+comment   = --
+group     = '(' ')'
+
+file   = 'module ' package declarations*line
+import = 'require ' path:string
+var    = 'local ' name ' = ' value
+assign = target ' = ' value
+proc   = 'local function ' name '(' parameters*', ' ')' [': ' result] body newline 'end'
+param  = name ': ' type
+type   = name
+block  = indent statements*line dedent
+expr   = expression
+if     = 'if ' condition ' then' then [newline 'else' otherwise] newline 'end'
+while  = 'while ' condition ' do' body newline 'end'
+return = 'return' [' ' value]
+call   = function '(' arguments*', ' ')'
+select = base '.' name
+or     = left ' or ' right
+and    = left ' and ' right
+eq     = left ' == ' right
+ne     = left ' ~= ' right
+lt     = left ' < ' right
+le     = left ' <= ' right
+gt     = left ' > ' right
+ge     = left ' >= ' right
+add    = left ' + ' right
+sub    = left ' - ' right
+mul    = left ' * ' right
+div    = left ' // ' right
+mod    = left ' % ' right
+neg    = '-' operand
+not    = 'not ' operand
+id     = name
+str    = value:string
+int    = value:number

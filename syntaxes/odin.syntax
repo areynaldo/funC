@@ -1,0 +1,39 @@
+# An Odin-like view.
+name      = odin
+title     = Odin
+extension = .fodin
+comment   = //
+group     = '(' ')'
+
+file   = 'package ' package declarations*line
+import = 'import ' path:string
+var    = name ' := ' value
+assign = target ' = ' value
+proc   = name ' :: proc(' parameters*', ' ')' [' -> ' result] ' ' body
+param  = name ': ' type
+type   = name
+block  = '{' indent statements*line dedent newline '}'
+expr   = expression
+if     = 'if ' condition ' ' then [' else ' otherwise]
+while  = 'for ' condition ' ' body
+return = 'return' [' ' value]
+call   = function '(' arguments*', ' ')'
+select = base '.' name
+or     = left ' || ' right
+and    = left ' && ' right
+eq     = left ' == ' right
+ne     = left ' != ' right
+lt     = left ' < ' right
+le     = left ' <= ' right
+gt     = left ' > ' right
+ge     = left ' >= ' right
+add    = left ' + ' right
+sub    = left ' - ' right
+mul    = left ' * ' right
+div    = left ' / ' right
+mod    = left ' % ' right
+neg    = '-' operand
+not    = '!' operand
+id     = name
+str    = value:string
+int    = value:number

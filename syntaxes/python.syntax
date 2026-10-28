@@ -1,0 +1,42 @@
+# A Python-like view. Blocks end where the indentation does.
+# A new variable is `x := 1`; `x = 2` assigns to one that exists.
+name      = python
+title     = Python
+extension = .fpy
+comment   = #
+layout    = indent
+spacing   = 2
+group     = '(' ')'
+
+file   = 'package(' package:string ')' declarations*line
+import = 'import(' path:string ')'
+var    = name ' := ' value
+assign = target ' = ' value
+proc   = 'def ' name '(' parameters*', ' ')' [' -> ' result] body
+param  = name ': ' type
+type   = name
+block  = ':' indent statements*line dedent
+expr   = expression
+if     = 'if ' condition then [newline 'else' otherwise]
+while  = 'while ' condition body
+return = 'return' [' ' value]
+call   = function '(' arguments*', ' ')'
+select = base '.' name
+or     = left ' or ' right
+and    = left ' and ' right
+eq     = left ' == ' right
+ne     = left ' != ' right
+lt     = left ' < ' right
+le     = left ' <= ' right
+gt     = left ' > ' right
+ge     = left ' >= ' right
+add    = left ' + ' right
+sub    = left ' - ' right
+mul    = left ' * ' right
+div    = left ' // ' right
+mod    = left ' % ' right
+neg    = '-' operand
+not    = 'not ' operand
+id     = name
+str    = value:string
+int    = value:number
