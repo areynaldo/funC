@@ -8,6 +8,10 @@ A program is a syntax-independent tree. A **syntax** is a text file that says ho
 
 *One program, stored once as [examples/fib.func](examples/fib.func), shown in each built-in syntax with the editor's highlighting, then compiled to C89 and run. Rendered from the real tools by [docs/demo.py](docs/demo.py).*
 
+![Typing into the Python view while the Odin view re-renders, then the Odin side switching syntax](docs/rerender.gif)
+
+*Editing one view re-renders the others: typing into the Python view (left) while the Odin view of the same tree (right) is printed again on every keystroke. A half-typed line stays as typed until it parses. Then the right side shows the same tree as Lua, Haskell, Lisp and C. Rendered by [docs/rerender.py](docs/rerender.py).*
+
 ## Why
 
 Traditional languages bind their semantics to one fixed textual grammar. That creates friction:
@@ -99,7 +103,7 @@ For extension development, start the **funC extension** launch configuration (F5
 bin/funC.exe syntaxes                          # list the syntaxes
 bin/funC.exe check examples/fizzbuzz.func      # parse and check, print diagnostics
 bin/funC.exe print examples/fib.func lisp      # the program in another syntax
-bin/funC.exe highlight examples/fib.func lua   # the same, as JSON with highlighting tokens
+bin/funC.exe highlight examples/fib.func lua   # the same, as JSON with highlighting tokens (without a syntax: the file as it is)
 bin/funC.exe c89 examples/fib.func fib.c       # compile to C89
 ```
 
@@ -136,6 +140,7 @@ mkdir bin                            # the linker does not create it
 odin build lsp -out:bin/funC-lsp.exe
 node lsp/smoke_test.mjs              # drives the server over stdio like an editor
 python docs/demo.py                  # re-render docs/demo.gif (needs Pillow and a C compiler)
+python docs/rerender.py              # re-render docs/rerender.gif
 ```
 
 The server uses full-document sync. It publishes parse and semantic diagnostics, answers `textDocument/semanticTokens/full`, and loads `.syntax` documents as syntaxes as you type. Its custom requests:

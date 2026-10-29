@@ -14,7 +14,8 @@ USAGE :: `usage: funC <command> [--syntaxes <dir>]... <arguments>
 commands:
   check <file>                  parse and check, print diagnostics
   print <file> <syntax>         print the program in another syntax
-  highlight <file> <syntax>     the same, as JSON with the highlighting tokens: {text, tokens: [{start, length, kind}]}
+  highlight <file> [<syntax>]   the same, as JSON with highlighting tokens: {text, tokens: [{start, length, kind}]};
+                                without a syntax, the file as it is, the way an editor shows it
   c89 <file> [<output.c>]       compile to C89 (stdout without an output file)
   syntaxes                      list the available syntaxes
 
@@ -125,23 +126,26 @@ main :: proc() {
 		os.exit(0)
 
 	case "highlight":
-		if len(arguments) != 3 do break
-		syntax := lang.find_syntax(arguments[2])
-		if syntax == nil {
-			fmt.eprintf("funC: no syntax named %s, see `funC syntaxes`\n", arguments[2])
-			os.exit(2)
+		if len(arguments) != 2 && len(arguments) != 3 do break
+		root, source, _ := load_program(arguments[1], &tree)
+		text, view := source, &tree
+		if len(arguments) == 3 {
+			syntax := lang.find_syntax(arguments[2])
+			if syntax == nil {
+				fmt.eprintf("funC: no syntax named %s, see `funC syntaxes`\n", arguments[2])
+				os.exit(2)
+			}
+			if root == 0 do os.exit(1)
+			// tokens come from parsing the printed text, as an editor showing the view would
+			text = lang.print_tree(&tree, syntax, root)
+			view = new(lang.Tree)
+			lang.tree_init(view)
+			lang.parse(view, syntax, text)
 		}
-		root, _, _ := load_program(arguments[1], &tree)
-		if root == 0 do os.exit(1)
-		// tokens come from parsing the printed text, as an editor showing the view would
-		text := lang.print_tree(&tree, syntax, root)
-		view: lang.Tree
-		lang.tree_init(&view)
-		lang.parse(&view, syntax, text)
 		output := struct {
 			text:   string,
 			tokens: []Highlight_Token,
-		}{text, highlight_tokens(&view)}
+		}{text, highlight_tokens(view)}
 		data, err := json.marshal(output)
 		if err != nil {
 			fmt.eprintln("funC: cannot encode:", err)
